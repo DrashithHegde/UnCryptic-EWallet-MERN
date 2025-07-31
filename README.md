@@ -1,24 +1,3 @@
-UnCryptic-EWallet-MERN/
-├── client/                # React frontend
-│   ├── public/
-│   ├── src/
-│   │   ├── components/
-│   │   ├── pages/
-│   │   ├── App.js         # Main App
-│   │   ├── index.js       # ReactDOM render
-│   │   └── ...
-│   ├── package.json
-│   └── ...
-├── server/                # Express backend
-│   ├── controllers/
-│   ├── models/
-│   ├── routes/
-│   ├── .env               # Env vars like DB url, secret
-│   ├── server.js          # Entry point
-│   ├── config.js          # MongoDB connect logic
-│   └── package.json
-├── README.md
-
 # 💳 UnCryptic — Smart E-Wallet Website (MERN Stack)
 
 **UnCryptic** is a secure, intelligent, and transparent **Digital Wallet Website** built using the **MERN Stack**. Designed for both rural and urban users, it brings simplicity, clarity, and smart financial tools into one platform.
