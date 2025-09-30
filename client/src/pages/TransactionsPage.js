@@ -8,7 +8,7 @@ const TransactionsPage = () => {
     {
       id: 1,
       type: 'received',
-      title: 'Received from Rahul Sharma',
+      title: 'Received from Atharva More',
       description: 'Lunch split payment',
       amount: '+₹2,500',
       date: '2024-01-15 • 14:30',
@@ -19,7 +19,7 @@ const TransactionsPage = () => {
     {
       id: 2,
       type: 'sent',
-      title: 'Paid to Priya Patel',
+      title: 'Paid to Dhruv Iyer',
       description: 'Restaurant bill',
       amount: '-₹850',
       date: '2024-01-15 • 12:15',
@@ -41,7 +41,7 @@ const TransactionsPage = () => {
     {
       id: 4,
       type: 'received',
-      title: 'Received from Amit Kumar',
+      title: 'Received from Ayush Jena',
       description: 'Freelance payment',
       amount: '+₹5,000',
       date: '2024-01-14 • 16:20',

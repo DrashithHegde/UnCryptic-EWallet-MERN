@@ -31,7 +31,7 @@ const SignUpPage = ({ setCurrentPage }) => {
       <div className="signup-container">
         <div className="signup-header">
           <div className="logo">
-            <div className="logo-icon">₿</div>
+            <div className="logo-icon">UC</div>
             <span className="logo-text">UnCryptic</span>
           </div>
           <h1>Create Your Account</h1>

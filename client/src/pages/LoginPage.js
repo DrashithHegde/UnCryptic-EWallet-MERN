@@ -11,7 +11,7 @@ const LoginPage = ({ setCurrentPage }) => {
       <div className="login-container">
         <div className="login-header">
           <div className="logo">
-            <div className="logo-icon">₿</div>
+            <div className="logo-icon">UC</div>
             <span className="logo-text">UnCryptic</span>
           </div>
           <h1>Welcome back</h1>
