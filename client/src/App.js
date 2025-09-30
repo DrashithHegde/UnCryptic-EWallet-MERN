@@ -7,6 +7,7 @@ import CreditScorePage from './pages/CreditScorePage';
 import OfflinePaymentPage from './pages/OfflinePaymentPage';
 import TransactionsPage from './pages/TransactionsPage';
 import LoginPage from './pages/LoginPage';
+import SignUpPage from './pages/SignUpPage';
 import Footer from './components/Footer';
 
 function App() {
@@ -15,7 +16,7 @@ function App() {
   const renderPage = () => {
     switch (currentPage) {
       case 'home':
-        return <HomePage />;
+        return <HomePage setCurrentPage={setCurrentPage} />;
       case 'features':
         return <FeaturesPage />;
       case 'credit-score':
@@ -25,9 +26,11 @@ function App() {
       case 'transactions':
         return <TransactionsPage />;
       case 'login':
-        return <LoginPage />;
+        return <LoginPage setCurrentPage={setCurrentPage} />;
+      case 'signup':
+        return <SignUpPage setCurrentPage={setCurrentPage} />;
       default:
-        return <HomePage />;
+        return <HomePage setCurrentPage={setCurrentPage} />;
     }
   };
 
@@ -35,7 +38,7 @@ function App() {
     <div className="App">
       <Navbar currentPage={currentPage} setCurrentPage={setCurrentPage} />
       {renderPage()}
-      {currentPage !== 'login' && <Footer />}
+      {currentPage !== 'login' && currentPage !== 'signup' && <Footer />}
     </div>
   );
 }

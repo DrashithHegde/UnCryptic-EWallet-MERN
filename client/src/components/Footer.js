@@ -48,7 +48,7 @@ const Footer = () => {
         </div>
         
         <div className="footer-bottom">
-          <p>© 2025 UnCryptic. All rights reserved. Made with ❤️ for digital India.</p>
+          <p>© 2024 UnCryptic. All rights reserved. Made with ❤️ for digital India.</p>
         </div>
       </div>
     </footer>

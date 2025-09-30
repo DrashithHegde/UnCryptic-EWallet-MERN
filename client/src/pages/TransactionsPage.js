@@ -8,7 +8,7 @@ const TransactionsPage = () => {
     {
       id: 1,
       type: 'received',
-      title: 'Received from Atharva More',
+      title: 'Received from Rahul Sharma',
       description: 'Lunch split payment',
       amount: '+₹2,500',
       date: '2024-01-15 • 14:30',
@@ -19,9 +19,9 @@ const TransactionsPage = () => {
     {
       id: 2,
       type: 'sent',
-      title: 'Paid to Dhruv Iyer',
+      title: 'Paid to Priya Patel',
       description: 'Restaurant bill',
-      amount: '-₹1,000',
+      amount: '-₹850',
       date: '2024-01-15 • 12:15',
       method: 'QR',
       category: 'Food',
@@ -41,9 +41,9 @@ const TransactionsPage = () => {
     {
       id: 4,
       type: 'received',
-      title: 'Received from Ayush Jena',
+      title: 'Received from Amit Kumar',
       description: 'Freelance payment',
-      amount: '+₹10,000',
+      amount: '+₹5,000',
       date: '2024-01-14 • 16:20',
       method: 'Bank Transfer',
       category: 'Transfer',
@@ -81,15 +81,15 @@ const TransactionsPage = () => {
       <div className="balance-summary">
         <div className="balance-card sent">
           <h3>Total Sent</h3>
-          <div className="balance-amount">₹5,400</div>
+          <div className="balance-amount">₹6,000</div>
         </div>
         <div className="balance-card received">
           <h3>Total Received</h3>
-          <div className="balance-amount">₹12,500</div>
+          <div className="balance-amount">₹9,000</div>
         </div>
         <div className="balance-card net">
           <h3>Net Balance</h3>
-          <div className="balance-amount">₹7,100</div>
+          <div className="balance-amount">₹3,000</div>
         </div>
       </div>
 

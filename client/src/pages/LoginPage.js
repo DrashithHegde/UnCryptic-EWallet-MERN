@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const LoginPage = () => {
+const LoginPage = ({ setCurrentPage }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
@@ -11,7 +11,7 @@ const LoginPage = () => {
       <div className="login-container">
         <div className="login-header">
           <div className="logo">
-            <div className="logo-icon">UC</div>
+            <div className="logo-icon">₿</div>
             <span className="logo-text">UnCryptic</span>
           </div>
           <h1>Welcome back</h1>
@@ -84,7 +84,13 @@ const LoginPage = () => {
 
           <div className="signup-link">
             <span>Don't have an account? </span>
-            <a href="#">Sign up for free</a>
+            <button 
+              type="button" 
+              className="link-btn"
+              onClick={() => setCurrentPage('signup')}
+            >
+              Sign up for free
+            </button>
           </div>
 
           <div className="security-note">

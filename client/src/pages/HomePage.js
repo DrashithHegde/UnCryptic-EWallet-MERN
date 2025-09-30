@@ -1,6 +1,6 @@
 import React from 'react';
 
-const HomePage = () => {
+const HomePage = ({ setCurrentPage }) => {
   return (
     <div className="home-page">
       {/* Hero Section */}
@@ -30,7 +30,10 @@ const HomePage = () => {
           </div>
 
           <div className="cta-buttons">
-            <button className="btn-primary">
+            <button 
+              className="btn-primary"
+              onClick={() => setCurrentPage('signup')}
+            >
               Get Started Free
               <span>→</span>
             </button>
@@ -84,28 +87,40 @@ const HomePage = () => {
           </div>
 
           <div className="features-grid">
-            <div className="feature-card">
+            <div 
+              className="feature-card clickable"
+              onClick={() => setCurrentPage('features')}
+            >
               <div className="feature-icon">💳</div>
               <h3>All Features</h3>
               <p>
                 Explore our comprehensive suite of payment tools and services
               </p>
             </div>
-            <div className="feature-card">
+            <div 
+              className="feature-card clickable"
+              onClick={() => setCurrentPage('credit-score')}
+            >
               <div className="feature-icon">📊</div>
               <h3>Credit Score</h3>
               <p>
                 Monitor and improve your credit score with our interactive simulator
               </p>
             </div>
-            <div className="feature-card">
+            <div 
+              className="feature-card clickable"
+              onClick={() => setCurrentPage('offline-payment')}
+            >
               <div className="feature-icon">📡</div>
               <h3>Offline Payment</h3>
               <p>
                 Make payments even without internet using QR codes and USSD
               </p>
             </div>
-            <div className="feature-card">
+            <div 
+              className="feature-card clickable"
+              onClick={() => setCurrentPage('transactions')}
+            >
               <div className="feature-icon">📈</div>
               <h3>Transactions</h3>
               <p>
@@ -119,7 +134,10 @@ const HomePage = () => {
             <p>Join millions of users who trust UnCryptic for their daily financial transactions.</p>
             
             <div className="cta-features">
-              <div className="cta-feature">
+              <div 
+                className="cta-feature clickable"
+                onClick={() => setCurrentPage('offline-payment')}
+              >
                 <div className="cta-feature-icon">📱</div>
                 <span>QR Payments</span>
               </div>
@@ -134,7 +152,10 @@ const HomePage = () => {
             </div>
 
             <div className="cta-buttons">
-              <button className="btn-primary">
+              <button 
+                className="btn-primary"
+                onClick={() => setCurrentPage('signup')}
+              >
                 Download App
                 <span>→</span>
               </button>

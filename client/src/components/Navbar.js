@@ -48,7 +48,12 @@ const Navbar = ({ currentPage, setCurrentPage }) => {
             Login
           </button>
         </div>
-        <button className="get-started-btn">Get Started</button>
+        <button 
+          className="get-started-btn"
+          onClick={() => setCurrentPage('signup')}
+        >
+          Get Started
+        </button>
       </div>
     </nav>
   );
