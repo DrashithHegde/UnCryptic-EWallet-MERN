@@ -11,7 +11,7 @@ import SignUpPage from './pages/SignUpPage';
 import Footer from './components/Footer';
 
 function App() {
-  const [currentPage, setCurrentPage] = useState('home');
+  const [currentPage, setCurrentPage] = useState('login');
 
   const renderPage = () => {
     switch (currentPage) {

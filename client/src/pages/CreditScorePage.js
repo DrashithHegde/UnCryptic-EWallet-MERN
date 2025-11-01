@@ -11,7 +11,7 @@ const CreditScorePage = () => {
 
   // Calculate score whenever sliders change
   useEffect(() => {
-    const calculateScore = () => {
+    const calculateScore = () => { 
       const newScore = Math.round(
         (paymentHistory * 0.35) + 
         ((100 - creditUtilization) * 0.30) + 

@@ -93,10 +93,10 @@ const LoginPage = ({ setCurrentPage }) => {
             </button>
           </div>
 
-          <div className="security-note">
+          {/* <div className="security-note">
             <span>🔒</span>
             <span>Your information is secured with bank-grade encryption</span>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

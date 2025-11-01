@@ -158,10 +158,10 @@ const SignUpPage = ({ setCurrentPage }) => {
                 <span>G</span>
                 Google
               </button>
-              <button type="button" className="social-btn facebook">
+              {/* <button type="button" className="social-btn facebook">
                 <span>f</span>
                 Facebook
-              </button>
+              </button> */}
             </div>
 
             <div className="login-link">
@@ -198,10 +198,10 @@ const SignUpPage = ({ setCurrentPage }) => {
             </div>
           </div>
 
-          <div className="security-note">
+          {/* <div className="security-note">
             <span>🛡️</span>
             <span>Your personal information is protected with 256-bit SSL encryption</span>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
