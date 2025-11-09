@@ -1,0 +1,138 @@
+.money-actions-page {
+    padding: 2rem;
+    max-width: 600px;
+    margin: 0 auto;
+    background: #f8f9fa;
+    min-height: 100vh;
+}
+
+.action-container {
+    background: white;
+    border-radius: 8px;
+    padding: 2rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e9ecef;
+}
+
+.action-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #212529;
+    margin: 0 0 1.5rem 0;
+    text-align: center;
+}
+
+.balance-info {
+    background: #f8f9fa;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+    text-align: center;
+    border: 1px solid #e9ecef;
+}
+
+.balance-info p {
+    font-size: 1.1rem;
+    color: #495057;
+    margin: 0;
+}
+
+.balance-info strong {
+    color: #28a745;
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.money-action-form {
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #495057;
+    font-weight: 500;
+    font-size: 0.925rem;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    font-size: 1rem;
+    background: white;
+    transition: border-color 0.15s ease;
+    box-sizing: border-box;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.error-message {
+    color: #dc3545;
+    background: #f8d7da;
+    border: 1px solid #f5c6cb;
+    padding: 0.75rem;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+.success-message {
+    color: #155724;
+    background: #d4edda;
+    border: 1px solid #c3e6cb;
+    padding: 0.75rem;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+.submit-button {
+    width: 100%;
+    padding: 0.875rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: white;
+    background: #007bff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+    margin-top: 1rem;
+}
+
+.submit-button:hover:not(:disabled) {
+    background: #0056b3;
+}
+
+.submit-button:disabled {
+    background: #6c757d;
+    cursor: not-allowed;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .money-actions-page {
+        padding: 1rem;
+    }
+
+    .action-container {
+        padding: 1.5rem;
+    }
+
+    .action-title {
+        font-size: 1.25rem;
+    }
+}
