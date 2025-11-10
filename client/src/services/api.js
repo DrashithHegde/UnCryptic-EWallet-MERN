@@ -173,5 +173,16 @@ export const createTransaction = async (receiverId, amount, type, description = 
     }
 };
 
+// Get live credit score based on transactions
+export const getCreditScore = async (userId) => {
+    try {
+        const response = await api.get(`/api/credit-score/${userId}`);
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching credit score:', error.response?.data || error.message);
+        throw error;
+    }
+};
+
 // Export the api instance as default
 export default api;

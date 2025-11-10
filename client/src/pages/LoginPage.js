@@ -90,10 +90,10 @@ const LoginPage = ({ setCurrentPage, onLogin }) => {
 
           <form onSubmit={handleSubmit}>
             <div className="form-group">
-              <label>Email or Phone Number</label>
+              <label>Email Address</label>
               <input
                 type="text"
-                placeholder="Enter your email or phone"
+                placeholder="Enter your email address"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="form-input"

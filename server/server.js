@@ -82,11 +82,13 @@ const authRoutes = require('./routes/auth');
 const transactionRoutes = require('./routes/transactions');
 const requestRoutes = require('./routes/requests');
 const adminRoutes = require('./routes/admin');
+const creditScoreRoutes = require('./routes/creditScore');
 
 app.use('/api/auth', authRoutes);
 app.use('/api/transactions', transactionRoutes);
 app.use('/api/requests', requestRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/credit-score', creditScoreRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

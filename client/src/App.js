@@ -164,7 +164,7 @@ function App() {
       case 'features':
         return <FeaturesPage setCurrentPage={setCurrentPage} />;
       case 'credit-score':
-        return <CreditScorePage />;
+        return <CreditScorePage userData={userData} />;
       case 'offline-payment':
         return <OfflinePaymentPage />;
       case 'transactions':

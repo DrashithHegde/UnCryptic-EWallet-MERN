@@ -68,6 +68,21 @@ router.post('/register', async (req, res) => {
       });
     }
 
+    // Validate phone number
+    if (!phone) {
+      return res.status(400).json({
+        message: 'Phone number is required',
+        code: 'PHONE_REQUIRED'
+      });
+    }
+
+    if (!/^\d{10}$/.test(phone)) {
+      return res.status(400).json({
+        message: 'Phone number must be exactly 10 digits',
+        code: 'INVALID_PHONE'
+      });
+    }
+
     // Check if user exists
     let user = await User.findOne({ email });
     if (user) {
@@ -85,7 +100,7 @@ router.post('/register', async (req, res) => {
       name,
       email,
       password: password,
-      phone: req.body.phone || '',
+      phone: phone,
       balance: 10000 // Initial balance of ₹10,000
     });
 

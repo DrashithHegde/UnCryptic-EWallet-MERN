@@ -58,6 +58,19 @@ const SignUpPage = ({ setCurrentPage, onSignup }) => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+
+    // Special handling for phone number - only allow digits and limit to 10 characters
+    if (name === 'phone') {
+      const numericValue = value.replace(/\D/g, ''); // Remove all non-digit characters
+      if (numericValue.length <= 10) {
+        setFormData(prev => ({
+          ...prev,
+          [name]: numericValue
+        }));
+      }
+      return;
+    }
+
     setFormData(prev => ({
       ...prev,
       [name]: value
@@ -73,6 +86,17 @@ const SignUpPage = ({ setCurrentPage, onSignup }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+
+    // Validate phone number
+    if (!formData.phone || formData.phone.length !== 10) {
+      setError('Phone number must be exactly 10 digits');
+      return;
+    }
+
+    if (!/^\d{10}$/.test(formData.phone)) {
+      setError('Phone number must contain only digits');
+      return;
+    }
 
     // Validate password strength
     if (formData.password.length < 6) {
@@ -178,12 +202,20 @@ const SignUpPage = ({ setCurrentPage, onSignup }) => {
                 <input
                   type="tel"
                   name="phone"
-                  placeholder="Enter your phone number"
+                  placeholder="Enter 10-digit phone number"
                   value={formData.phone}
                   onChange={handleInputChange}
                   className="form-input"
+                  maxLength="10"
+                  pattern="\d{10}"
+                  title="Please enter exactly 10 digits"
                   required
                 />
+                {formData.phone && formData.phone.length < 10 && (
+                  <small style={{ color: '#ff4757', fontSize: '12px' }}>
+                    Phone number must be 10 digits ({formData.phone.length}/10)
+                  </small>
+                )}
               </div>
             </div>
 
