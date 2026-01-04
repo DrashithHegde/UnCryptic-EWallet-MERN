@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
 import { registerUser } from '../services/api';
 
+// Sanitize input to prevent XSS
+const sanitizeInput = (input) => {
+  return input.trim().replace(/[<>]/g, '');
+};
+
 const SignUpPage = ({ setCurrentPage, onSignup }) => {
   const [formData, setFormData] = useState({
     fullName: '',
@@ -71,10 +76,18 @@ const SignUpPage = ({ setCurrentPage, onSignup }) => {
       return;
     }
 
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
+    // Sanitize email and name fields
+    if (name === 'email' || name === 'fullName') {
+      setFormData(prev => ({
+        ...prev,
+        [name]: sanitizeInput(value)
+      }));
+    } else {
+      setFormData(prev => ({
+        ...prev,
+        [name]: value
+      }));
+    }
 
     // Validate password strength in real-time
     if (name === 'password') {
@@ -129,8 +142,6 @@ const SignUpPage = ({ setCurrentPage, onSignup }) => {
         formData.confirmPassword,
         formData.phone
       );
-
-      console.log('Registration successful:', response.data);
 
       // The registerUser function already handles token and user data storage
       if (response.data.user) {
@@ -199,18 +210,21 @@ const SignUpPage = ({ setCurrentPage, onSignup }) => {
             <div className="form-row">
               <div className="form-group">
                 <label>Phone Number</label>
-                <input
-                  type="tel"
-                  name="phone"
-                  placeholder="Enter 10-digit phone number"
-                  value={formData.phone}
-                  onChange={handleInputChange}
-                  className="form-input"
-                  maxLength="10"
-                  pattern="\d{10}"
-                  title="Please enter exactly 10 digits"
-                  required
-                />
+                <div className="phone-input-wrapper">
+                  <span className="phone-prefix">+91</span>
+                  <input
+                    type="tel"
+                    name="phone"
+                    placeholder="Enter 10-digit phone number"
+                    value={formData.phone}
+                    onChange={handleInputChange}
+                    className="form-input"
+                    maxLength="10"
+                    pattern="\d{10}"
+                    title="Please enter exactly 10 digits"
+                    required
+                  />
+                </div>
                 {formData.phone && formData.phone.length < 10 && (
                   <small style={{ color: '#ff4757', fontSize: '12px' }}>
                     Phone number must be 10 digits ({formData.phone.length}/10)
@@ -351,17 +365,6 @@ const SignUpPage = ({ setCurrentPage, onSignup }) => {
               {loading ? 'Creating Account...' : 'Create Account'}
             </button>
 
-            <div className="divider">
-              <span>Or sign up with</span>
-            </div>
-
-            <div className="social-login">
-              <button type="button" className="social-btn google">
-                <span>G</span>
-                Google
-              </button>
-            </div>
-
             <div className="login-link">
               <span>Already have an account? </span>
               <button
@@ -373,33 +376,6 @@ const SignUpPage = ({ setCurrentPage, onSignup }) => {
               </button>
             </div>
           </form>
-
-          <div className="security-features">
-            <h3>Why Choose UnCryptic?</h3>
-            <div className="features-list">
-              <div className="feature-item">
-                <span className="feature-icon">🔒</span>
-                <span>Bank-grade security encryption</span>
-              </div>
-              <div className="feature-item">
-                <span className="feature-icon">⚡</span>
-                <span>Instant money transfers</span>
-              </div>
-              <div className="feature-item">
-                <span className="feature-icon">💳</span>
-                <span>Multiple payment options</span>
-              </div>
-              <div className="feature-item">
-                <span className="feature-icon">📱</span>
-                <span>Mobile-first experience</span>
-              </div>
-            </div>
-          </div>
-
-          <div className="security-note">
-            <span>🛡️</span>
-            <span>Your personal information is protected with 256-bit SSL encryption</span>
-          </div>
         </div>
       </div>
     </div>

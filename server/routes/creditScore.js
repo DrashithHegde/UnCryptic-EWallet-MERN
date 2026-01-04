@@ -4,137 +4,96 @@ const { protect } = require('../middleware/authMiddleware');
 const Transaction = require('../models/Transaction');
 const User = require('../models/User');
 
-// Calculate credit score based on user activity
-router.get('/:userId', protect, async (req, res) => {
+// Get credit score for current user
+router.get('/my', protect, async (req, res) => {
     try {
-        const userId = req.params.userId;
-
-        console.log('=== CREDIT SCORE CALCULATION ===');
-        console.log('User ID:', userId);
-
-        // Fetch user data
-        const user = await User.findById(userId);
+        const user = await User.findById(req.user._id);
         if (!user) {
-            console.log('User not found');
             return res.status(404).json({ message: 'User not found' });
         }
 
-        console.log('User found:', { name: user.name, email: user.email, balance: user.balance });
-
-        // Fetch user transactions
         const transactions = await Transaction.find({
-            $or: [{ userId: userId }, { receiverId: userId }]
+            $or: [{ userId: req.user._id }, { receiverId: req.user._id }],
+            type: 'payment',
+            status: 'success'
         });
 
-        console.log('Total transactions found:', transactions.length);
-
-        // Calculate transaction metrics
-        const totalTransactions = transactions.length;
-
-        const sentTransactions = transactions.filter(t =>
-            t.userId && t.userId.toString() === userId && t.type === 'debit'
-        );
-
-        const receivedTransactions = transactions.filter(t =>
-            t.receiverId && t.receiverId.toString() === userId && t.type === 'credit'
-        );
-
-        const totalSentAmount = sentTransactions
-            .filter(t => t.status === 'success')
+        const sentAmount = transactions
+            .filter(t => t.userId.toString() === req.user._id)
             .reduce((sum, t) => sum + t.amount, 0);
 
-        const totalReceivedAmount = receivedTransactions
-            .filter(t => t.status === 'success')
+        const receivedAmount = transactions
+            .filter(t => t.receiverId.toString() === req.user._id)
             .reduce((sum, t) => sum + t.amount, 0);
 
-        const failedTransactions = transactions.filter(t => t.status === 'failed').length;
-        const pendingRequests = transactions.filter(t => t.status === 'pending').length;
+        let score = 700;
 
-        console.log('Transaction metrics:', {
-            totalTransactions,
-            sentCount: sentTransactions.length,
-            receivedCount: receivedTransactions.length,
-            totalSentAmount,
-            totalReceivedAmount,
-            failedTransactions,
-            pendingRequests
-        });
+        // Bonus for transaction activity
+        if (transactions.length > 3) score += 20;
+        if (transactions.length > 10) score += 15;
 
-        // Base score
-        let creditScore = 700;
-        console.log('Starting score:', creditScore);
+        // Bonus for balance
+        if (user.balance > 10000) score += 30;
+        else if (user.balance > 5000) score += 20;
 
-        // Apply scoring rules
+        // Bonus for received payments
+        if (receivedAmount > 10000) score += 25;
+        else if (receivedAmount > 5000) score += 15;
 
-        // POSITIVE FACTORS (First 3 only)
+        // Penalties
+        if (user.balance < 1000) score -= 25;
+        if (sentAmount > receivedAmount && sentAmount > 5000) score -= 15;
 
-        // 1. Transaction count bonus (encourages activity)
-        if (totalTransactions > 3) {
-            creditScore += 20;
-            console.log('+20: totalTransactions > 3 ✓');
-        }
+        // Bonus for consistent payment history
+        if (sentAmount > 0 && receivedAmount > 0) score += 10;
 
-        // 2. Balance-based scoring
-        if (user.balance > 10000) {
-            creditScore += 30;
-            console.log('+30: balance > 10000 (excellent financial health) ✓');
-        } else if (user.balance > 5000) {
-            creditScore += 20;
-            console.log('+20: balance > 5000 (good financial health) ✓');
-        } else if (user.balance > 3000) {
-            creditScore += 10;
-            console.log('+10: balance > 3000 (fair financial health) ✓');
-        }
-
-        // 3. Receiving money is good (shows trust/income)
-        if (totalReceivedAmount > 10000) {
-            creditScore += 25;
-            console.log('+25: received > 10000 (high trust/income) ✓');
-        } else if (totalReceivedAmount > 5000) {
-            creditScore += 15;
-            console.log('+15: received > 5000 (good income flow) ✓');
-        } else if (totalReceivedAmount > 2000) {
-            creditScore += 10;
-            console.log('+10: received > 2000 (decent income) ✓');
-        }
-
-        // NEGATIVE FACTORS (Low balance and negative cash flow only)
-
-        // 1. Low balance penalty
-        if (user.balance < 1000) {
-            creditScore -= 25;
-            console.log('-25: balance < 1000 (poor financial health) ✗');
-        } else if (user.balance < 2000) {
-            creditScore -= 10;
-            console.log('-10: balance < 2000 (low financial reserves) ✗');
-        }
-
-        // 2. Negative cash flow penalty (sending more than receiving)
-        if (totalSentAmount > totalReceivedAmount && totalSentAmount > 5000) {
-            creditScore -= 15;
-            console.log('-15: sending more than receiving (negative cash flow) ✗');
-        }
-
-        // Clamp between 300-900
-        creditScore = Math.max(300, Math.min(900, creditScore));
-
-        console.log('Final credit score:', creditScore);
-        console.log('=== END CREDIT SCORE CALCULATION ===\n');
+        score = Math.max(300, Math.min(900, score));
 
         res.json({
-            creditScore,
-            metrics: {
-                totalTransactions,
-                balance: user.balance,
-                totalSentAmount,
-                totalReceivedAmount,
-                failedTransactions,
-                pendingRequests
-            }
+            score,
+            creditScore: score,
+            balance: user.balance,
+            transactionCount: transactions.length,
+            sentAmount,
+            receivedAmount
         });
-    } catch (error) {
-        console.error('Credit score calculation error:', error);
-        res.status(500).json({ message: 'Error calculating credit score', error: error.message });
+    } catch (err) {
+        res.status(500).json({ message: 'Error calculating credit score' });
+    }
+});
+
+// Get credit score for specific user
+router.get('/:userId', protect, async (req, res) => {
+    try {
+        const user = await User.findById(req.params.userId);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        const transactions = await Transaction.find({
+            $or: [{ userId: req.params.userId }, { receiverId: req.params.userId }]
+        });
+
+        const receivedAmount = transactions
+            .filter(t => t.receiverId.toString() === req.params.userId && t.type === 'credit' && t.status === 'success')
+            .reduce((sum, t) => sum + t.amount, 0);
+
+        let score = 700;
+
+        if (transactions.length > 3) score += 20;
+        if (user.balance > 10000) score += 30;
+        else if (user.balance > 5000) score += 20;
+
+        if (receivedAmount > 10000) score += 25;
+        else if (receivedAmount > 5000) score += 15;
+
+        if (user.balance < 1000) score -= 25;
+
+        score = Math.max(300, Math.min(900, score));
+
+        res.json({ creditScore: score });
+    } catch (err) {
+        res.status(500).json({ message: 'Error calculating credit score' });
     }
 });
 

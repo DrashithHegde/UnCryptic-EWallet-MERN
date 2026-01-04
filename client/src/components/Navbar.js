@@ -18,34 +18,22 @@ const Navbar = ({ currentPage, setCurrentPage, setShowProfile, userData }) => {
             Home
           </button>
           <button
-            className={`nav-item ${currentPage === 'features' ? 'active' : ''}`}
-            onClick={() => setCurrentPage('features')}
-          >
-            Features
-          </button>
-          <button
             className={`nav-item ${currentPage === 'credit-score' ? 'active' : ''}`}
             onClick={() => setCurrentPage('credit-score')}
           >
             Credit Score
           </button>
           <button
-            className={`nav-item ${currentPage === 'offline-payment' ? 'active' : ''}`}
-            onClick={() => setCurrentPage('offline-payment')}
+            className={`nav-item ${currentPage === 'transfer-money' ? 'active' : ''}`}
+            onClick={() => setCurrentPage('transfer-money')}
           >
-            QR Payment
+            Transfer Money
           </button>
           <button
             className={`nav-item ${currentPage === 'transactions' ? 'active' : ''}`}
             onClick={() => setCurrentPage('transactions')}
           >
             Transactions
-          </button>
-          <button
-            className={`nav-item ${currentPage === 'money-actions' ? 'active' : ''}`}
-            onClick={() => setCurrentPage('money-actions')}
-          >
-            Transfer Money
           </button>
         </div>
         <div className="nav-actions">

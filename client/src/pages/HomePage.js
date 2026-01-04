@@ -56,12 +56,7 @@ const HomePage = ({ setCurrentPage }) => {
                 <p>Send Money</p>
                 <div className="amount-display">₹5,000</div>
               </div>
-              <button
-                className="transfer-btn"
-                onClick={() => setCurrentPage('money-actions')}
-              >
-                Transfer Now
-              </button>
+              <button className="transfer-btn" onClick={() => setCurrentPage('transfer-money')}>Transfer Now</button>
             </div>
             <div className="widget-floating-element"></div>
           </div>
@@ -83,32 +78,32 @@ const HomePage = ({ setCurrentPage }) => {
           <div className="features-grid">
             <div
               className="feature-card clickable"
-              onClick={() => setCurrentPage('features')}
+              onClick={() => setCurrentPage('transfer-money')}
             >
-              <div className="feature-icon">💳</div>
-              <h3>All Features</h3>
+              <div className="feature-icon">💰</div>
+              <h3>Pay/Request Money</h3>
               <p>
-                Explore our comprehensive suite of payment tools and services
+                Send payments or request money from anyone instantly
               </p>
             </div>
             <div
               className="feature-card clickable"
               onClick={() => setCurrentPage('credit-score')}
             >
-              <div className="feature-icon">📊</div>
+              <div className="feature-icon">⭐</div>
               <h3>Credit Score</h3>
               <p>
-                Monitor and track your credit score and financial health
+                Monitor and improve your credit score with our interactive simulator
               </p>
             </div>
             <div
               className="feature-card clickable"
-              onClick={() => setCurrentPage('offline-payment')}
+              onClick={() => setCurrentPage('transfer-money')}
             >
               <div className="feature-icon">📱</div>
-              <h3>QR Payment</h3>
+              <h3>QR Scan & Pay</h3>
               <p>
-                Generate and scan QR codes for instant payments anywhere
+                Scan QR codes to instantly fill payment details and send money
               </p>
             </div>
             <div
@@ -116,7 +111,7 @@ const HomePage = ({ setCurrentPage }) => {
               onClick={() => setCurrentPage('transactions')}
             >
               <div className="feature-icon">📈</div>
-              <h3>Transactions</h3>
+              <h3>Transaction History</h3>
               <p>
                 View your complete payment history and track all transactions
               </p>
@@ -130,7 +125,7 @@ const HomePage = ({ setCurrentPage }) => {
             <div className="cta-features">
               <div
                 className="cta-feature clickable"
-                onClick={() => setCurrentPage('offline-payment')}
+                onClick={() => setCurrentPage('transfer-money')}
               >
                 <div className="cta-feature-icon">📱</div>
                 <span>QR Payments</span>
@@ -139,15 +134,12 @@ const HomePage = ({ setCurrentPage }) => {
                 className="cta-feature clickable"
                 onClick={() => setCurrentPage('credit-score')}
               >
-                <div className="cta-feature-icon">📊</div>
-                <span>Credit Score Simulator</span>
+                <div className="cta-feature-icon">⭐</div>
+                <span>Credit Score</span>
               </div>
-              <div
-                className="cta-feature clickable"
-                onClick={() => setCurrentPage('money-actions')}
-              >
+              <div className="cta-feature">
                 <div className="cta-feature-icon">⚡</div>
-                <span>Send Money</span>
+                <span>Instant Transfer</span>
               </div>
             </div>
           </div>

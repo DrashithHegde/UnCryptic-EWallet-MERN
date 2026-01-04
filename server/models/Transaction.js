@@ -13,7 +13,7 @@ const transactionSchema = new mongoose.Schema({
     },
     type: {
         type: String,
-        enum: ['credit', 'debit', 'request'],
+        enum: ['payment', 'request'],
         required: true
     },
     amount: {
@@ -23,19 +23,18 @@ const transactionSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ['success', 'pending', 'rejected'],
+        enum: ['success', 'pending', 'rejected', 'accepted'],
         default: 'success'
     },
     method: {
         type: String,
-        enum: ['online', 'offline', 'request'],
         required: true
     },
     description: {
         type: String,
         default: ''
     },
-    timestamp: {
+    createdAt: {
         type: Date,
         default: Date.now
     }

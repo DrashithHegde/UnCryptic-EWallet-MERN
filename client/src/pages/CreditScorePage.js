@@ -11,32 +11,25 @@ const CreditScorePage = ({ userData }) => {
   const [newInquiries, setNewInquiries] = useState(20);
   const [showResetFeedback, setShowResetFeedback] = useState(false);
   const [isRealScore, setIsRealScore] = useState(false);
+  const [feedbackMessage, setFeedbackMessage] = useState('');
 
   // Fetch real credit score based on transactions
   useEffect(() => {
     const fetchRealScore = async () => {
-      console.log('=== FETCHING CREDIT SCORE ===');
-      console.log('userData:', userData);
-
       if (userData?._id || userData?.id) {
         try {
           const userId = userData._id || userData.id;
-          console.log('Fetching score for user ID:', userId);
 
-          const data = await getCreditScore(userId);
-          console.log('Credit score response:', data);
+          const data = await getCreditScore();
 
-          setCreditScore(data.creditScore);
+          const score = Math.round(data.score || data.creditScore || 700);
+          setCreditScore(score);
           setIsRealScore(true);
-          console.log('Credit score set to:', data.creditScore);
         } catch (error) {
-          console.error('Error fetching credit score:', error);
-          console.log('Falling back to simulated score');
           // Fall back to simulated score if API fails
           calculateScore();
         }
       } else {
-        console.log('No user data found, using simulated score');
         // No user logged in, use simulated score
         calculateScore();
       }
@@ -59,7 +52,6 @@ const CreditScorePage = ({ userData }) => {
 
   // Calculate simulated score whenever sliders change
   useEffect(() => {
-    console.log('Recalculating score from sliders');
     calculateScore();
   }, [paymentHistory, creditUtilization, creditHistory, creditMix, newInquiries]);
 
@@ -69,37 +61,37 @@ const CreditScorePage = ({ userData }) => {
     setCreditHistory(85);
     setCreditMix(80);
     setNewInquiries(5);
+
+    // Show optimization feedback
+    setFeedbackMessage('Score optimized!');
+    setShowResetFeedback(true);
+    setTimeout(() => {
+      setShowResetFeedback(false);
+    }, 2000);
   };
 
   const resetScore = async () => {
-    console.log('=== RESET BUTTON CLICKED ===');
-    console.log('userData:', userData);
-
     // Always try to fetch real score from API when user is logged in
     if (userData?._id || userData?.id) {
       try {
         const userId = userData._id || userData.id;
-        console.log('Fetching real-time credit score for user:', userId);
-        const data = await getCreditScore(userId);
-        console.log('Real-time credit score data:', data);
-        setCreditScore(data.creditScore);
+        const data = await getCreditScore();
+        const score = Math.round(data.score || data.creditScore || 700);
+        setCreditScore(score);
         setIsRealScore(true);
-        console.log('Real-time score loaded:', data.creditScore);
 
         // Show success feedback
+        setFeedbackMessage('Real-time score loaded from transactions!');
         setShowResetFeedback(true);
         setTimeout(() => {
           setShowResetFeedback(false);
         }, 2000);
       } catch (error) {
-        console.error('Error fetching real-time credit score:', error);
-        console.error('Error details:', {
-          message: error.message,
-          response: error.response,
-          status: error.response?.status,
-          data: error.response?.data
-        });
-        alert(`Failed to fetch real-time score: ${error.response?.data?.message || error.message}`);
+        setFeedbackMessage(`Error: ${error.response?.data?.message || 'Failed to fetch real-time score'}`);
+        setShowResetFeedback(true);
+        setTimeout(() => {
+          setShowResetFeedback(false);
+        }, 3000);
       }
     } else {
       console.log('No user logged in, resetting to default simulated values');
@@ -109,9 +101,8 @@ const CreditScorePage = ({ userData }) => {
       setCreditHistory(70);
       setCreditMix(60);
       setNewInquiries(20);
-      setIsRealScore(false);
-
       // Show reset feedback
+      setFeedbackMessage('Score reset to default values');
       setShowResetFeedback(true);
       setTimeout(() => {
         setShowResetFeedback(false);
@@ -143,6 +134,12 @@ const CreditScorePage = ({ userData }) => {
 
   return (
     <div className="credit-score-page">
+      {showResetFeedback && (
+        <div className="reset-feedback">
+          ✓ {feedbackMessage}
+        </div>
+      )}
+
       <div className="credit-header">
         <h1>Credit Score <span className="highlight">Simulator</span></h1>
         <p>Interactive simulator to understand and improve your credit score with real-time calculations.</p>
@@ -194,8 +191,8 @@ const CreditScorePage = ({ userData }) => {
                 {creditScore >= originalScore ? '+' : ''}{creditScore - originalScore} points
               </span>
             </div>
-            <div className="score-improvement-text">
-              {creditScore > originalScore ? '+3 points' : `${creditScore - originalScore} points`}
+            <div className={`score-improvement-text ${creditScore >= originalScore ? 'improvement positive' : 'improvement negative'}`}>
+              {creditScore > originalScore ? '+' : ''}{creditScore - originalScore} points
               <div className="improvement-label">Improvement</div>
             </div>
             <button className="optimize-btn" onClick={optimizeScore}>
@@ -204,12 +201,6 @@ const CreditScorePage = ({ userData }) => {
             <button className="reset-btn" onClick={resetScore}>
               Reset to Real Score
             </button>
-
-            {showResetFeedback && (
-              <div className="reset-feedback">
-                ✓ {isRealScore ? 'Real-time score loaded from transactions!' : 'Score reset to default values'}
-              </div>
-            )}
           </div>
 
           <div className="score-ranges">

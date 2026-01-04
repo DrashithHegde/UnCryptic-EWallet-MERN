@@ -7,10 +7,10 @@
 ## 🌟 Key Features
 
 - 🔐 **JWT-based Authentication** (Login/Register)
-- 💸 **Transfer Money**
+- 💸 **Transfer/Request Money**
 - 📊 **Transaction History**
 - 🧠 **Credit Score Simulation**
-- 📶 **Offline QR Payments** (for low-connectivity rural areas)
+- 📶 **QR Payments**
 
 ---
 
