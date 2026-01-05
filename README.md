@@ -1,6 +1,6 @@
 # 💳 UnCryptic — Smart E-Wallet Website (MERN Stack)
 
-**UnCryptic** is a secure, intelligent, and transparent **Digital Wallet Website** built using the **MERN Stack**. Designed for both rural and urban users, it brings simplicity, clarity, and smart financial tools into one platform.
+**UnCryptic** is a MERN-based digital wallet built with demo currency to simulate real-world financial interactions in a secure and transparent way. It features user authentication, peer-to-peer transfers, payment requests, QR-based payments, and detailed transaction tracking, all powered by REST APIs and MongoDB. A key highlight is its **custom real-time credit score simulation**, which dynamically updates based on user transaction behavior, allowing financial insights without using real money. The project is designed for learning, evaluation, and portfolio showcasing, emphasizing clean backend logic, scalability, and practical full-stack implementation.
 
 ---
 
