@@ -112,11 +112,6 @@ const SignUpPage = ({ setCurrentPage, onSignup }) => {
     }
 
     // Validate password strength
-    if (formData.password.length < 6) {
-      setError('Password must be at least 6 characters long');
-      return;
-    }
-
     if (passwordStrength.score < 5) {
       setError('Password must include: 8+ characters, uppercase, lowercase, number, and special character');
       return;
