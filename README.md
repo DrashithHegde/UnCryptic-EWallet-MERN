@@ -4,6 +4,14 @@
 
 ---
 
+## 🚀 Live Demo
+- **Frontend:** https://un-cryptic-e-wallet-mern.vercel.app
+- **Backend API:** https://uncryptic-ewallet-mern.onrender.com
+
+---
+
+---
+
 ## 🌟 Key Features
 
 - 🔐 **JWT-based Authentication** (Login/Register)
