@@ -117,8 +117,8 @@ const SignUpPage = ({ setCurrentPage, onSignup }) => {
       return;
     }
 
-    if (passwordStrength.score < 2) {
-      setError('Password is too weak. Please include uppercase, lowercase, numbers, or special characters');
+    if (passwordStrength.score < 5) {
+      setError('Password must include: 8+ characters, uppercase, lowercase, number, and special character');
       return;
     }
 
