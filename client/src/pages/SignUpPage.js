@@ -3,7 +3,7 @@ import { registerUser } from '../services/api';
 
 // Sanitize input to prevent XSS
 const sanitizeInput = (input) => {
-  return input.trim().replace(/[<>]/g, '');
+  return input.replace(/[<>]/g, '');
 };
 
 const SignUpPage = ({ setCurrentPage, onSignup }) => {
@@ -50,7 +50,7 @@ const SignUpPage = ({ setCurrentPage, onSignup }) => {
     } else if (score < 3) {
       message = 'Weak password';
       color = '#ff4757';
-    } else if (score < 4) {
+    } else if (score < 5) {
       message = 'Medium password';
       color = '#ffa502';
     } else {
@@ -78,9 +78,14 @@ const SignUpPage = ({ setCurrentPage, onSignup }) => {
 
     // Sanitize email and name fields
     if (name === 'email' || name === 'fullName') {
+      let sanitized = sanitizeInput(value);
+      // Remove numbers and special chars from full name (keep only letters and spaces)
+      if (name === 'fullName') {
+        sanitized = sanitized.replace(/[^a-zA-Z\s]/g, '');
+      }
       setFormData(prev => ({
         ...prev,
-        [name]: sanitizeInput(value)
+        [name]: sanitized
       }));
     } else {
       setFormData(prev => ({
@@ -89,6 +94,9 @@ const SignUpPage = ({ setCurrentPage, onSignup }) => {
       }));
     }
 
+    // Clear error when user starts typing
+    setError('');
+
     // Validate password strength in real-time
     if (name === 'password') {
       const strength = validatePasswordStrength(value);
@@ -96,9 +104,33 @@ const SignUpPage = ({ setCurrentPage, onSignup }) => {
     }
   };
 
+  const setErrorWithTimeout = (message) => {
+    setError(message);
+    setTimeout(() => {
+      setError('');
+    }, 3000);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
+
+    // Validate full name
+    if (!formData.fullName || formData.fullName.trim().length === 0) {
+      setError('Full name is required');
+      return;
+    }
+
+    if (formData.fullName.length < 3) {
+      setError('Full name must be at least 3 characters');
+      return;
+    }
+
+    // Validate email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!formData.email || !emailRegex.test(formData.email)) {
+      setError('Please enter a valid email address');
+      return;
+    }
 
     // Validate phone number
     if (!formData.phone || formData.phone.length !== 10) {
@@ -106,24 +138,8 @@ const SignUpPage = ({ setCurrentPage, onSignup }) => {
       return;
     }
 
-    if (!/^\d{10}$/.test(formData.phone)) {
-      setError('Phone number must contain only digits');
-      return;
-    }
-
-    // Validate password strength
-    if (passwordStrength.score < 5) {
-      setError('Password must include: 8+ characters, uppercase, lowercase, number, and special character');
-      return;
-    }
-
     if (formData.password !== formData.confirmPassword) {
-      setError('Passwords do not match');
-      return;
-    }
-
-    if (!agreeToTerms) {
-      setError('Please agree to the Terms of Service and Privacy Policy');
+      setErrorWithTimeout('Passwords do not match');
       return;
     }
 
@@ -294,6 +310,7 @@ const SignUpPage = ({ setCurrentPage, onSignup }) => {
                     </ul>
                   </div>
                 )}
+
               </div>
             </div>
 
@@ -343,19 +360,14 @@ const SignUpPage = ({ setCurrentPage, onSignup }) => {
                 color: '#dc2626',
                 fontSize: '0.875rem'
               }}>
-                <strong>⚠️ {error}</strong>
-                {error.includes('weak') && (
-                  <div style={{ marginTop: '0.5rem', fontSize: '0.8rem' }}>
-                    💡 Try using a mix of uppercase, lowercase, numbers, and special characters like !@#$%^&*
-                  </div>
-                )}
+                <strong>{error}</strong>
               </div>
             )}
 
             <button
               type="submit"
               className="signup-btn"
-              disabled={!agreeToTerms || loading || passwordStrength.score < 2}
+              disabled={!agreeToTerms || loading || passwordStrength.score < 5}
             >
               {loading ? 'Creating Account...' : 'Create Account'}
             </button>

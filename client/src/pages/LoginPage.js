@@ -42,16 +42,10 @@ const LoginPage = ({ setCurrentPage, onLogin }) => {
       localStorage.setItem('userData', JSON.stringify(response.data.user));
       onLogin(response.data.user);
     } catch (error) {
-
-
       if (error.response?.data?.code === 'USER_NOT_FOUND') {
-        const goToSignup = window.confirm('No account found with this email. Would you like to create a new account?');
-        if (goToSignup) {
-          setCurrentPage('signup');
-          return;
-        }
+        setError('User not found. Please check your email or sign up.');
       } else if (error.response?.data?.code === 'INVALID_PASSWORD') {
-        setError('The password you entered is incorrect. Please try again.');
+        setError('Invalid password. Please try again.');
       } else if (error.response?.data?.code === 'PASSWORD_EXPIRED') {
         setError('Your password has expired. Please reset your password to continue.');
       } else {
@@ -79,7 +73,7 @@ const LoginPage = ({ setCurrentPage, onLogin }) => {
           <p>Enter your credentials to access your UnCryptic account</p>
 
           <form onSubmit={handleSubmit}>
-            {error && <div className="error-message" style={{ padding: '10px', marginBottom: '15px', backgroundColor: '#fee', color: '#c00', borderRadius: '4px', fontSize: '14px' }}>{error}</div>}
+            {error && <div className="error-message" style={{ padding: '10px', marginBottom: '15px', backgroundColor: '#fee', color: '#c00', borderRadius: '4px', fontSize: '14px', fontWeight: 'bold' }}>{error}</div>}
 
             <div className="form-group">
               <label>Email Address</label>
@@ -112,13 +106,6 @@ const LoginPage = ({ setCurrentPage, onLogin }) => {
                   {showPassword ? '🙈' : '👁️'}
                 </button>
               </div>
-              {password && password.length < 6 && (
-                <div className="password-hint">
-                  <span style={{ color: '#f59e0b', fontSize: '0.75rem' }}>
-                    💡 For better security, use passwords with 8+ characters, including uppercase, lowercase, numbers, and special characters
-                  </span>
-                </div>
-              )}
             </div>
 
             <div className="form-options">
@@ -145,11 +132,6 @@ const LoginPage = ({ setCurrentPage, onLogin }) => {
             >
               Sign up for free
             </button>
-          </div>
-
-          <div className="security-note">
-            <span>🔒</span>
-            <span>Your information is secured with bank-grade encryption</span>
           </div>
         </div>
       </div>

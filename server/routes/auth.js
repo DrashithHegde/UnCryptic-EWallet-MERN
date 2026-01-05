@@ -27,14 +27,14 @@ router.post('/register', async (req, res) => {
       return res.status(400).json({ message: 'Phone number must be 10 digits' });
     }
 
-    let user = await User.findOne({ email });
+    let user = await User.findOne({ email: email.toLowerCase() });
     if (user) {
       return res.status(400).json({ message: 'User already exists' });
     }
 
     user = new User({
       name,
-      email,
+      email: email.toLowerCase(),
       password,
       phone,
       balance: 10000
@@ -67,14 +67,14 @@ router.post('/login', async (req, res) => {
       return res.status(400).json({ message: 'Email and password required' });
     }
 
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email: email.toLowerCase() });
     if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+      return res.status(404).json({ code: 'USER_NOT_FOUND', message: 'User not found' });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(401).json({ message: 'Invalid password' });
+      return res.status(401).json({ code: 'INVALID_PASSWORD', message: 'Invalid password' });
     }
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '24h' });

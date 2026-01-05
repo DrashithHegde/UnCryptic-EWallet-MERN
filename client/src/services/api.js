@@ -1,6 +1,8 @@
 import axios from 'axios';
 
-const API_URL = 'https://uncryptic-ewallet-mern.onrender.com';
+const API_URL = process.env.NODE_ENV === 'development'
+    ? 'http://localhost:5001'
+    : 'https://uncryptic-ewallet-mern.onrender.com';
 
 const api = axios.create({
     baseURL: API_URL,
@@ -26,9 +28,12 @@ api.interceptors.response.use(
     (response) => response,
     (error) => {
         if (error.response?.status === 401) {
-            localStorage.removeItem('token');
-            localStorage.removeItem('userData');
-            window.location.href = '/login';
+            // Only redirect if not already on login page (to avoid clearing form fields during login)
+            if (window.location.pathname !== '/login') {
+                localStorage.removeItem('token');
+                localStorage.removeItem('userData');
+                window.location.href = '/login';
+            }
         }
         return Promise.reject(error);
     }
