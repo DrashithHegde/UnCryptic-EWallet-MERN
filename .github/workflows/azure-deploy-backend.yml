@@ -1,0 +1,43 @@
+name: Deploy Backend to Azure
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'server/**'
+      - '.github/workflows/azure-deploy-backend.yml'
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Node.js 22
+      uses: actions/setup-node@v3
+      with:
+        node-version: '22'
+        cache: 'npm'
+        cache-dependency-path: 'server/package-lock.json'
+    
+    - name: Install dependencies
+      run: |
+        cd server
+        npm install
+    
+    - name: Run tests (optional)
+      run: |
+        cd server
+        npm test || true
+    
+    - name: Deploy to Azure Web App
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: 'uncryptic-api'
+        publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}
+        package: './server'
+    
+    - name: Deployment Status
+      if: success()
+      run: echo "✅ Backend deployed successfully to https://uncryptic-api.azurewebsites.net"
