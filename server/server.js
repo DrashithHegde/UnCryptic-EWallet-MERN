@@ -7,9 +7,17 @@ require('dotenv').config({ path: path.join(__dirname, '.env') });
 const app = express();
 const PORT = parseInt(process.env.PORT) || 5001;
 
-// Middleware
+// Middleware - Support all deployment platforms
+const allowedOrigins = [
+  'http://localhost:3000',
+  'http://localhost:3001',
+  'https://un-cryptic-e-wallet-mern.vercel.app', // Vercel
+  'https://uncryptic-ewallet-mern.onrender.com', // Render
+  process.env.AZURE_FRONTEND_URL // Azure Static Web Apps (set in Azure)
+].filter(Boolean); // Remove undefined values
+
 app.use(cors({
-  origin: ['http://localhost:3000', 'http://localhost:3001', 'https://un-cryptic-e-wallet-mern.vercel.app'],
+  origin: allowedOrigins,
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']

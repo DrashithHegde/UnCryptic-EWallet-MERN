@@ -1,8 +1,11 @@
 import axios from 'axios';
 
-const API_URL = process.env.NODE_ENV === 'development'
-    ? 'http://localhost:5001'
-    : 'https://uncryptic-ewallet-mern.onrender.com';
+// Backward compatible: supports Azure, Vercel, and local development
+const API_URL =
+    process.env.REACT_APP_API_URL || // Azure environment variable
+    (process.env.NODE_ENV === 'development'
+        ? 'http://localhost:5001' // Local development
+        : 'https://uncryptic-ewallet-mern.onrender.com'); // Vercel/Production (Render backend)
 
 const api = axios.create({
     baseURL: API_URL,
