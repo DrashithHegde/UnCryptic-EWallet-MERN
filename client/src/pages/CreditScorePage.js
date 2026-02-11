@@ -13,7 +13,6 @@ const CreditScorePage = ({ userData }) => {
   const [isRealScore, setIsRealScore] = useState(false);
   const [feedbackMessage, setFeedbackMessage] = useState('');
 
-  // Fetch real credit score based on transactions
   useEffect(() => {
     const fetchRealScore = async () => {
       if (userData?._id || userData?.id) {
