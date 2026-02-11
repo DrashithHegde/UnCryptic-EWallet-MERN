@@ -39,4 +39,4 @@ jobs:
     
     - name: Deployment Status
       if: success()
-      run: echo "✅ Backend deployed successfully to https://uncryptic-api.azurewebsites.net"
+      run: echo "✅ Backend deployed successfully to https://uncryptic-api-grarb8hmeye0ewak.eastasia-01.azurewebsites.net"
