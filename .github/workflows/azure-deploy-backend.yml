@@ -10,26 +10,25 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: server
     
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     
     - name: Set up Node.js 22
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
       with:
         node-version: '22'
         cache: 'npm'
         cache-dependency-path: 'server/package-lock.json'
     
     - name: Install dependencies
-      run: |
-        cd server
-        npm install
+      run: npm install
     
     - name: Run tests (optional)
-      run: |
-        cd server
-        npm test || true
+      run: npm test || true
     
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v2
