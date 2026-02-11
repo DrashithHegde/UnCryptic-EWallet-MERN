@@ -35,6 +35,8 @@ jobs:
       - name: Build And Deploy
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
+        env:
+          REACT_APP_API_URL: https://uncryptic-api-grarb8hmeye0ewak.eastasia-01.azurewebsites.net
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_BLUE_SAND_043D8D900 }}
           action: "upload"
